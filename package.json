@@ -1,0 +1,26 @@
+{
+  "name": "c2a_pyr_converter",
+  "version": "1.0.0",
+  "description": "Convert highg res images to pyramidal tiff",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SebSMK/C2A_Pyr_converter.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SebSMK/C2A_Pyr_converter/issues"
+  },
+  "homepage": "https://github.com/SebSMK/C2A_Pyr_converter#readme",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "grunt": "latest",
+    "grunt-mocha": "^1.0.4",
+    "mocha": "^4.0.1"
+  },
+  "dependencies": {}
+}
