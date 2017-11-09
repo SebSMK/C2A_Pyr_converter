@@ -1,14 +1,62 @@
+var Q = require('q'),
+logger = require('./controllers/logging'),
+sprintf = require('sprintf-js').sprintf,
+converter = require('./controllers/converter');
+
 module.exports = {
-  escape: escape
+  insert: insert
+}
+
+/**
+ * Params:
+ * params.link
+ * params.invnumber
+ * params.institution  
+ *  */
+function insert(params) {
+  var promise = [];
+  var deferred = Q.defer();
+  var pyrconv = new converter();                              
+                          
+  sendInterfaceMessage(sprintf("** start processing - %s - %s %s", params.invnumber, params.institution, params.link));                                                                                  
+  
+  promise.push(
+   
+   pyrconv.exec(params)
+    .then(
+      function(result){
+        sendInterfaceMessage(sprintf("PROCESSED - %s **", result ));
+      },
+      function(err){
+        sendInterfaceMessage(sprintf("processing error - %s **", err ));
+      })
+                                
+  ); 
+  
+  Q.allSettled(promise).then(function(result) {
+    //loop through array of promises, add items  
+    var tosend = []
+    result.forEach(function(res) { 
+      if (res.state === "fulfilled") {
+        tosend.push(res.value);
+      }                
+      if (res.state === "rejected") {
+        tosend.push(res.reason);
+      }                
+    });     
+    promise = []; //empty array, since it's global.
+    deferred.resolve(tosend);
+  }); 
+  
+  return deferred.promise;  
 }
 
 
-
-function escape(html) {
-    return String(html)
-      .replace(/&/g, '&amp;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
-  }
+ /***
+ *  PRIVATE FUNCTIONS
+ **/
+function sendInterfaceMessage(message){
+  //console.log('message', { message: sprintf('%s -- %s', getFormatedNowDate() , message )});
+  //console.log(process.env.NODE_ENV);
+  logger.debug('message', message);  
+};     

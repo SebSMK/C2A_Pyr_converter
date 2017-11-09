@@ -1,5 +1,5 @@
 {
-  "name": "c2a_pyr_converter",
+  "name": "pyr_converter",
   "version": "1.0.0",
   "description": "Convert highg res images to pyramidal tiff",
   "main": "index.js",
@@ -18,9 +18,11 @@
   "homepage": "https://github.com/SebSMK/C2A_Pyr_converter#readme",
   "devDependencies": {
     "chai": "^4.1.2",
-    "grunt": "latest",
-    "grunt-mocha": "^1.0.4",
     "mocha": "^4.0.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "q": "^1.5.1",
+    "sprintf-js": "^1.1.1",
+    "winston": "^2.4.0"
+  }
 }
