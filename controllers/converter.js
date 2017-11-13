@@ -19,7 +19,8 @@ Converter = (function() {
         var deferred = Q.defer(), 
         filePath, 
         resourcePath, 
-        invnumber;                 
+        invnumber,
+        storage;                 
                            
         /*check params*/                              
         invnumber = params.invnumber;            
@@ -31,6 +32,9 @@ Converter = (function() {
         filePath = resourcePath;
         logger.info("filePath name :", filePath);
         
+        storage = params.storage;            
+        logger.info("storage :", storage);
+        
         fs.exists(filePath, 
            function(exists) {
            
@@ -40,8 +44,8 @@ Converter = (function() {
               }
               try{
                   logger.info("Converter processing :", filePath);
-                  image = new Image(filePath, invnumber);
-                  imageProcessor = process.env.NODE_ENV != 'production' ? image.dummyprocess.bind(image) : image.process.bind(image);                            
+                  image = new Image(storage, filePath, invnumber);
+                  imageProcessor = process.env.NODE_ENV == 'dummy' ? image.dummyprocess.bind(image) : image.process.bind(image);                            
                   
                   imageProcessor()
                   .then(function(data) {                      

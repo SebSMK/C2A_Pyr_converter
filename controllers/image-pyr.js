@@ -1,6 +1,6 @@
 var logger = require('c2a_utils').logging,
     sprintf = require('sprintf-js').sprintf,
-    config = require('../config'),
+    //config = require('../config'),
     fs = require('fs'),
     exec = require('child_process').exec,
     mmm = require('mmmagic'),
@@ -14,16 +14,17 @@ var logger = require('c2a_utils').logging,
 
 Image = (function() {
 
-    var type, path;    
-    var storage = config.storage.dev;
+    var type, path, storage;    
+    //var storage = config.storage.dev;
     //storage =  __dirname + '/';
     
     /**
      * Constructor
      **/
-    function Image(path, invnumber) {
+    function Image(storage, path, invnumber) {
         this.path = path;
         this.invnumber = invnumber;
+        this.storage = storage;
     }
 
     /**
@@ -34,8 +35,8 @@ Image = (function() {
         var deferred = Q.defer();
         var self = this;
         
-        self.image = storage + self.invnumber + '.image';
-        self.pyr_path = storage + self.invnumber + '_pyr.tif';
+        self.image = self.storage + self.invnumber + '.image';
+        self.pyr_path = self.storage + self.invnumber + '_pyr.tif';
 
         logger.info('Image.prototype.process: ' + JSON.stringify(this, null, 4));
         

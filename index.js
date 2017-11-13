@@ -11,7 +11,8 @@ module.exports = {
  * Params:
  * params.link
  * params.invnumber
- * params.institution  
+ * params.institution 
+ * params.storage  
  *  */
 function insert(params) {
   var promise = [];
