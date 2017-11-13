@@ -21,6 +21,8 @@
     "mocha": "^4.0.1"
   },
   "dependencies": {
+    "mmmagic": "^0.4.5",
+    "promisepipe": "^2.1.1",
     "q": "^1.5.1",
     "sprintf-js": "^1.1.1",
     "winston": "^2.4.0"

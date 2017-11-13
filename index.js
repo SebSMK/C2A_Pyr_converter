@@ -1,5 +1,5 @@
 var Q = require('q'),
-logger = require('./controllers/logging'),
+logger = require('c2a_utils').logging,
 sprintf = require('sprintf-js').sprintf,
 converter = require('./controllers/converter');
 
@@ -23,14 +23,15 @@ function insert(params) {
   promise.push(
    
    pyrconv.exec(params)
-    .then(
-      function(result){
+    .then(function(result){
         sendInterfaceMessage(sprintf("PROCESSED - %s **", result ));
       },
       function(err){
         sendInterfaceMessage(sprintf("processing error - %s **", err ));
       })
-                                
+    .catch(function(err){
+        deferred.reject(err); 
+    })                          
   ); 
   
   Q.allSettled(promise).then(function(result) {

@@ -1,8 +1,8 @@
 var Q = require('q'),    
-  logger = require("./logging"),     
+  logger = require('c2a_utils').logging,     
   sprintf = require('sprintf-js').sprintf,  
   fs = require('fs'),    
-  Image = require('./image');
+  Image = require('./image-pyr');
 
 Converter = (function() {    
     
@@ -52,10 +52,9 @@ Converter = (function() {
                       //console.log("Converter progress: " + progress);
                       deferred.notify(progress);
                   })
-                  .catch(function(err) {
-                      throw(error); 
-                  })
-                  
+                  .catch(function(err){
+                      deferred.reject(err); 
+                  })   
               }
               catch(ex){
                   logger.error(ex);
