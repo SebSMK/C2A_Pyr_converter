@@ -21,28 +21,18 @@ function insert(params) {
                           
   sendInterfaceMessage(sprintf("** start processing - %s - %s %s", params.invnumber, params.institution, params.link));                                                                                  
   
-  promise.push(
-   
-   pyrconv.exec(params)
-    .then(function(result){
-        sendInterfaceMessage(sprintf("PROCESSED - %s **", result ));
-      },
-      function(err){
-        sendInterfaceMessage(sprintf("processing error - %s **", err ));
-      })
-    .catch(function(err){
-        deferred.reject(err); 
-    })                          
-  ); 
+  promise.push(pyrconv.exec(params)); 
   
   Q.allSettled(promise).then(function(result) {
     //loop through array of promises, add items  
     var tosend = []
     result.forEach(function(res) { 
       if (res.state === "fulfilled") {
+        sendInterfaceMessage(sprintf("PROCESSED - %s **", JSON.stringify(res.value)));
         tosend.push(res.value);
       }                
       if (res.state === "rejected") {
+        sendInterfaceMessage(sprintf("processing error - %s **", JSON.stringify(res.reason)));
         tosend.push(res.reason);
       }                
     });     
@@ -60,5 +50,5 @@ function insert(params) {
 function sendInterfaceMessage(message){
   //console.log('message', { message: sprintf('%s -- %s', getFormatedNowDate() , message )});
   //console.log(process.env.NODE_ENV);
-  logger.debug('message', message);  
+  logger.info('message', message);  
 };     
